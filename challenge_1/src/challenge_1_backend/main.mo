@@ -75,14 +75,14 @@ actor {
     let size : Nat = newArray.size();
     var index : Nat = 0;
     while (index < size) {
-      var maxIndex : Nat = index;
+      var minIndex : Nat = index;
       for (i in Iter.range(index + 1, size - 1)) {
-        if (newArray[i] < newArray[maxIndex]) {
-          maxIndex := i;
+        if (newArray[i] < newArray[minIndex]) {
+          minIndex := i;
         };
       };
-      if (maxIndex != index) {
-        swap(newArray, index, maxIndex);
+      if (minIndex != index) {
+        swap(newArray, index, minIndex);
       };
       index := index + 1;
     };
