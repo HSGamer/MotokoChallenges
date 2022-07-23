@@ -60,7 +60,7 @@ actor {
 
   public func remove_from_array(array : [Nat], n : Nat) : async [Nat] {
     var list : List.List<Nat> = List.fromArray(array);
-    var filtered : List.List<Nat> = List.filter(list, func (val: Nat) : Bool { val != n });
+    var filtered : List.List<Nat> = List.filter<Nat>(list, func (val) { val != n });
     return List.toArray(filtered);
   };
 
