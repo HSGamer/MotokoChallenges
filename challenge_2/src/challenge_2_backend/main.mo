@@ -50,4 +50,13 @@ actor {
   public func trim_whitespace(t: Text) : async Text {
     return Text.trim(t, #char ' ');
   };
+
+  // TODO: implement
+  public func duplicated_character(t: Text) : async Text {
+    return "";
+  };
+
+  public func size_in_bytes(t: Text) : async Nat {
+    return Text.encodeUtf8(t).size();
+  };
 };
