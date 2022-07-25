@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "dfx": "0.11.0",
+  "canisters": {
+    "challenge_2_backend": {
+      "type": "motoko",
+      "main": "src/challenge_2_backend/main.mo"
+    },
+    "challenge_2_frontend": {
+      "type": "assets",
+      "source": [
+        "src/challenge_2_frontend/assets"
+      ],
+      "dependencies": [
+        "challenge_2_backend"
+      ]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  }
+}
