@@ -2,6 +2,8 @@ import Nat8 "mo:base/Nat8";
 import Nat "mo:base/Nat";
 import Text "mo:base/Text";
 import Iter "mo:base/Iter";
+import Array "mo:base/Array";
+import List "mo:base/List";
 import Prim "mo:prim";
 
 actor {
@@ -58,5 +60,73 @@ actor {
 
   public func size_in_bytes(t: Text) : async Nat {
     return Text.encodeUtf8(t).size();
+  };
+
+  public func bubble_sort(array : [Nat]) : async [Nat] {
+    let newArray : [var Nat] = Array.thaw(array);
+    let size : Nat = newArray.size();
+    for (i in Iter.range(0, size - 2)) {
+      for (j in Iter.range(0, size - i - 2)) {
+        if (newArray[j] > newArray[j + 1]) {
+          let tmp : Nat = newArray[j];
+          newArray[j] := newArray[j + 1];
+          newArray[j + 1] := tmp;
+        };
+      };
+    };
+    return Array.freeze(newArray);
+  };
+
+  public func nat_opt_to_nat(n: ?Nat, m: Nat) : async Nat {
+    switch n {
+      case (null) { m };
+      case (? ni) { ni };
+    };
+  };
+
+  public func day_of_the_week(n: Nat) : async ?Text {
+    do ? {
+      switch n {
+        case (1) { "Monday" };
+        case (2) { "Tuesday" };
+        case (3) { "Wednesday" };
+        case (4) { "Thursday" };
+        case (5) { "Friday" };
+        case (6) { "Saturday" };
+        case (7) { "Sunday" };
+        case (_) { null ! };
+      };
+    };
+  };
+
+  public func populate_array(array: [?Nat]) : async [Nat] {
+    return Array.map<?Nat, Nat>(array, func (n: ?Nat) : Nat {
+      switch n {
+        case (null) { 0 };
+        case (? ni) { ni };
+      };
+    });
+  };
+
+  public func sum_of_array(array: [Nat]) : async Nat {
+    return Array.foldLeft(array, 0, func (acc : Nat, n : Nat) : Nat { acc + n });
+  };
+
+  public func squared_array(array: [Nat]) : async [Nat] {
+    return Array.map(array, func (n: Nat) : Nat { n ** 2 });
+  };
+
+  public func increase_by_index(array: [Nat]) : async [Nat] {
+    return Array.mapEntries(array, func (n: Nat, index: Nat) : Nat { n + index });
+  };
+
+  private func contain<A>(array: [A], a: A, f : (A, A) -> Bool) : async Bool {
+    return Array.foldLeft(array, false, func (result : Bool, acc : A) : Bool {
+      if (f(acc, a)) {
+        return true;
+      } else {
+        return result;
+      };
+    });
   };
 };
