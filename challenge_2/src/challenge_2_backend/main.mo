@@ -53,9 +53,16 @@ actor {
     return Text.trim(t, #char ' ');
   };
 
-  // TODO: implement
   public func duplicated_character(t: Text) : async Text {
-    return "";
+    var checked : Text = "";
+    for (c in t.chars()) {
+      if (Text.contains(checked, #char c)) {
+        return Text.fromChar(c);
+      } else {
+        checked := checked # Text.fromChar(c);
+      };
+    };
+    return checked;
   };
 
   public func size_in_bytes(t: Text) : async Nat {
@@ -120,7 +127,7 @@ actor {
     return Array.mapEntries(array, func (n: Nat, index: Nat) : Nat { n + index });
   };
 
-  private func contain<A>(array: [A], a: A, f : (A, A) -> Bool) : async Bool {
+  private func contains<A>(array: [A], a: A, f : (A, A) -> Bool) : Bool {
     return Array.foldLeft(array, false, func (result : Bool, acc : A) : Bool {
       if (f(acc, a)) {
         return true;
@@ -128,5 +135,9 @@ actor {
         return result;
       };
     });
+  };
+
+  public func containsNum(array: [Nat], a: Nat) : async Bool {
+    return contains<Nat>(array, a, func (n, m) { n == m });
   };
 };
