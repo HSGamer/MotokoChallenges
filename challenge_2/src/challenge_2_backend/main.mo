@@ -4,6 +4,7 @@ import Text "mo:base/Text";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
 import List "mo:base/List";
+import Char "mo:base/Char";
 import Prim "mo:prim";
 
 actor {
@@ -54,15 +55,17 @@ actor {
   };
 
   public func duplicated_character(t: Text) : async Text {
+    let reversed : [Char] = Array.reverse(Iter.toArray(t.chars()));
     var checked : Text = "";
-    for (c in t.chars()) {
+    var result : Text = t;
+    for (c in reversed.vals()) {
       if (Text.contains(checked, #char c)) {
-        return Text.fromChar(c);
+        result := Text.fromChar(c);
       } else {
         checked := checked # Text.fromChar(c);
       };
     };
-    return checked;
+    return result;
   };
 
   public func size_in_bytes(t: Text) : async Nat {
